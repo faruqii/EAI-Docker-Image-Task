@@ -1,15 +1,19 @@
-FROM golang:1.18-alpine
+FROM golang:1.18.0-alpine
 
+# Set the working directory to /app
 WORKDIR /app
 
-COPY go.mod go.sum ./
-
-RUN go mod download
-
+# Copy the source code into the container
 COPY . .
 
-RUN go build -o app .
+# Download Go modules
+RUN go mod download
 
+# Build the Go app
+RUN go build ./cmd/main.go
+
+# Expose port 3000 for the application
 EXPOSE 3000
 
-CMD ["./app"]
+# Start the application
+CMD ["./main"]
